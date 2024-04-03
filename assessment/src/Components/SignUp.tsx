@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { setUserInfo } from "../Store/UserSlice";
 import { API_URL } from "../utils/environment";
 import { useNavigate } from "react-router-dom";
+import { User } from "../Modals/userResponse";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -34,7 +35,7 @@ const SignUp = () => {
        navigate(path)
     }
 
-    const setUserData = (data: any) => {
+    const setUserData = (data: User) => {
       if(!!data.token) {
         navigateToDashboard();
         dispatch(setUserInfo(data))
