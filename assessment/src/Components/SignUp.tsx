@@ -4,6 +4,7 @@ import { setUserInfo } from "../Store/UserSlice";
 import { API_URL } from "../utils/environment";
 import { useNavigate } from "react-router-dom";
 import { User } from "../Modals/userResponse";
+import { signUpService } from "../Service/auth.service";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -18,16 +19,10 @@ const SignUp = () => {
     }, [])
 
     const SignUpUser = async () => {
-        fetch(SIGN_IN_URL, {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({
-                 "email": email,
-                 "password": password
-            })
-         })
-         .then(res => res.json())
-         .then(data => setUserData(data))
+        const data = signUpService(SIGN_IN_URL, email, password);
+        data.then((res: User) => {
+            setUserData(res)
+        })
     }
 
     const navigateToDashboard = () => {

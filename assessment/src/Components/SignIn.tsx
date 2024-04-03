@@ -4,6 +4,7 @@ import {API_URL} from "../utils/environment"
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "../Store/UserSlice";
 import { User } from "../Modals/userResponse";
+import { logInService } from "../Service/auth.service";
 
 const SigIn = () => {
     const [email, setEmail] = useState("");
@@ -18,35 +19,23 @@ const SigIn = () => {
     }, [])
 
     const SignInUser = () => {
-        fetchUser(email, password)
-    }
-
-    function fetchUser(email: string, password: string) {
-        fetch(SIGN_IN_URL, {
-            method: 'POST',
-            headers : {"Content-Type": "application/json"} ,
-            body: JSON.stringify({
-                "email": email,
-                "password": password
-            })
+        const data = logInService(SIGN_IN_URL, email, password);
+        data.then((res: User) => {
+            setUserData(res)
         })
-        .then(res => res.json())
-        .then(data => setUserData(data));
-
-        const navigateToDashboard = () => {
-            const path = '/dashboard'
-            navigate(path)
-         }
-     
-         const setUserData = (data: User) => {
-           if(!!data.token) {
-             navigateToDashboard();
-             dispatch(setUserInfo(data))
-           }
-         }
     }
 
+    const setUserData = (data: User) => {
+        if(!!data.token) {
+          navigateToDashboard();
+          dispatch(setUserInfo(data))
+        }
+      }
 
+    const navigateToDashboard = () => {
+        const path = '/dashboard'
+        navigate(path)
+     }
 
     return(
         <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

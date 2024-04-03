@@ -10,7 +10,7 @@ const dashboard = createSlice({
    },
    reducers: {
     setDashBoardInfo: (state, action) => {
-      const data = action.payload.data;
+      const data = action.payload;
       state.dashboardData = data;
     }
    }

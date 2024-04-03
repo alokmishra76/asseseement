@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import { useDispatch, useSelector } from "react-redux";
 import { setDashBoardInfo } from "../Store/DashboardSlice";
+import { getDashboardData } from "../Service/dashboard.service";
 
 const Dashboard = () => {
     const userData = useSelector((store: any) => store.dashboard.dashboardData);
@@ -12,9 +13,8 @@ const Dashboard = () => {
     }, [])
 
     const getUserData = () => {
-       fetch("https://reqres.in/api/users")
-      .then(res => res.json())
-      .then(data => setUserData(data))
+       const userData = getDashboardData();
+       userData.then((res) => setUserData(res.data))
     }
 
     const setUserData = (data: any) => {
